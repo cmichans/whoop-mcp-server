@@ -12,6 +12,9 @@ import type {
 	DbWorkout,
 } from './types.js';
 
+// Whoop API v2 usa 'zone_durations'; v1 usaba 'zone_duration'. Aceptamos ambos.
+const zones = (w: any) => w.score?.zone_durations ?? w.score?.zone_duration;
+
 interface TokenRow {
 	id: number;
 	access_token: string;
@@ -318,12 +321,12 @@ export class WhoopDatabase {
 					w.score?.average_heart_rate ?? null,
 					w.score?.max_heart_rate ?? null,
 					w.score?.kilojoule ?? null,
-					w.score?.zone_duration.zone_zero_milli ?? null,
-					w.score?.zone_duration.zone_one_milli ?? null,
-					w.score?.zone_duration.zone_two_milli ?? null,
-					w.score?.zone_duration.zone_three_milli ?? null,
-					w.score?.zone_duration.zone_four_milli ?? null,
-					w.score?.zone_duration.zone_five_milli ?? null
+					zones(w)?.zone_zero_milli ?? null,
+					zones(w)?.zone_one_milli ?? null,
+					zones(w)?.zone_two_milli ?? null,
+					zones(w)?.zone_three_milli ?? null,
+					zones(w)?.zone_four_milli ?? null,
+					zones(w)?.zone_five_milli ?? null
 				);
 			}
 		});
